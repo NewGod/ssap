@@ -10,36 +10,28 @@
 #include <stdlib.h>
 #include "values.h"
 #include "nodearc.h"
-#include "stack.h"
-#include "smartq.h"
+#include "spfa.h"
+#ifndef ulong 
+typedef unsigned long ulong;
 
 #define VERY_FAR            9223372036854775807LL // LLONG_MAX
 #define FAR                 MAXLONG
-
-#define SP_DIK_SMARTQ       1024       // use SP_S_Q + # of levels
-
-#define DIK_BUCKETS_DEFAULT  2         // default of two bucket levels
-
 
 int sp_openarc(Arc *arc);              // whether SP thinks an arc is usable
 extern void ArcLen(long cNodes, Node *nodes,
 		   long long *pMin = NULL, long long *pMax = NULL);
 
-
-class SP {
+class SP{
  private:
    long cNodes;
    Node *nodes;
-   int spType;
    void BFSInit(Node *source);
 
    SPFA *spfa;						// for SPFA
-   Bucket *BFSqueue;                 // for baseline BSF
 //** add new SP data structure here **//
 
  public:
-   SP(long cNodesGiven, Node *nodesGiven, ulong levels, ulong maxDelta,
-      bool doBFS);
+   SP(long cNodesGiven, Node *nodesGiven);
    ~SP();
    void init();
    void initS(Node *source);
@@ -57,7 +49,6 @@ class SP {
    void PrintStats(long tries);
    void initStats();
    int nodeId(Node *i);
-   long BFS(Node *source);   // to get baseline timing
    unsigned int curTime;
 };
 
