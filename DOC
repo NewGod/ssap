@@ -1,0 +1,44 @@
+This file documents the SQ/SQP solvers
+
+------------------------------------------------------------
+MAKE OPTIONS FOR SHORTEST PATH CODES
+
+  SINGLE_PAIR
+     do a source to sink shortest path computation
+     (if no sink specified, do the single source computation)
+
+  CHECKSUM
+     collect more run-time operation counts (expensive)
+
+-------------------------------------------------------------
+FILE DESCRIPTION
+
+    main.cc        the main program that drives tests
+    smartq.cc      bucket datastructure classes
+    smartq.h       smartq.cc header
+    sp.cc          shortest path classes
+    sp.h           sq.cc header
+    parser_gr.cc   graph parser
+    parcer_ss.cc   auxilary single-source parser
+    parcer_p2p.cc  auxilary point-to-point parser
+    timer.cc       timer
+    longlong.h     long long int definitions 
+                   (if your C++ compiler does not have one).
+    stack.h        stack and queue definitions
+    nodearc.h      graph structure definitions
+    
+
+------------------------------------------------------------
+PROGRAM PARAMETERS
+
+  sq.exe
+    Takes two parameters, a graph file name an auxilary file name
+
+  mbp.exe
+    Takes two parameters, a graph file name an auxilary file name
+      
+  sqC.exe/mbpC.exe
+    (For checking correctness)
+    Same as sq.exe/mbp.exe but print distance/checksum values 
+    for each problem instead of average time for a set of problems
+
