@@ -11,10 +11,6 @@ private:
 public:
 	SPFA(long n, Node* nodes);
 	~SPFA();
-#ifdef SINGLE_PAIR 
-	bool spfa(Node *source, Node *sink, SP *sp);
-#else 
-	bool spfa(Node *source, SP *sp);
-#endif
+	void spfa(Node *source, SP *sp);
 };
 #endif

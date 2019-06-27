@@ -1,6 +1,6 @@
 CC = g++
 
-CCFLAGS = -ansi -Wall -O6 -DNDEBUG -I../../lib
+CCFLAGS = -ansi -Wall -O3 -DNDEBUG -I../../lib
 #CCFLAGS = -ansi -Wall -O6 -g -I../../lib
 #CCFLAGS = -ansi -Wall -O6 -g -DALLSTATS
 LDFLAGS = 

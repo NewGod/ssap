@@ -2,6 +2,7 @@
 #define QUEUE_H
 #include<stdlib.h>
 #include<assert.h>
+#include<stdio.h>
 
 class Queue{
 private:
@@ -16,7 +17,7 @@ public:
 	}
 	void *push(void *elt){
 		data[((++end)%=maxSize)]=elt;
-		assert(end == curr);
+		assert(end != curr);
 		return data[end];
 	}
 	bool empty(){
@@ -26,10 +27,10 @@ public:
 		end = curr = 0; 
 	}
 	void* pop(){
-		assert(end!=curr); 
-		void* tmp = data[curr]; 
+		assert(end != curr); 
 		(++curr) %= maxSize;
-		return tmp;
+		void* tmp = data[curr]; 
+		return data[curr];
 	}
 };
 #endif 

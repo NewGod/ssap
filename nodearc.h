@@ -16,7 +16,7 @@ struct Arc {
 struct Node {
   long long dist;        // tentative shortest path length to some node
   Arc *first;          // first outgoing arc
-  Arc *end;
+  int tStamp;
   Node *parent;
   bool inQueue;
 };

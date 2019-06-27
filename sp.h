@@ -13,6 +13,7 @@
 #include "spfa.h"
 #ifndef ulong 
 typedef unsigned long ulong;
+#endif
 
 #define VERY_FAR            9223372036854775807LL // LLONG_MAX
 #define FAR                 MAXLONG
@@ -20,12 +21,11 @@ typedef unsigned long ulong;
 int sp_openarc(Arc *arc);              // whether SP thinks an arc is usable
 extern void ArcLen(long cNodes, Node *nodes,
 		   long long *pMin = NULL, long long *pMax = NULL);
-
+class SPFA;
 class SP{
  private:
    long cNodes;
    Node *nodes;
-   void BFSInit(Node *source);
 
    SPFA *spfa;						// for SPFA
 //** add new SP data structure here **//
@@ -36,11 +36,7 @@ class SP{
    void init();
    void initS(Node *source);
    void initNode(Node *source);
-#ifdef SINGLE_PAIR
-   bool sp(Node *source, Node *sink);
-#else
    void sp(Node *source);
-#endif
    // these must be public, alas, so Heap and Bucket can modify them
    long cCalls;         // # of times SP has been called since initialization
    long long cScans;         // # of nodes SP algorithm has looked at (since init)

@@ -13,14 +13,9 @@
 extern double timer();            // in timer.cc: tells time use
 extern int parse_gr( long *n_ad, long *m_ad, Node **nodes_ad, Arc **arcs_ad, 
 		long *node_min_ad, char *problem_name );
-#ifdef SINGLE_PAIR
-extern int parse_p2p(long *sN_ad, long **source_array, long **sink_array, char *aName);
-#else
 extern int parse_ss(long *sN_ad, long **source_array, char *aName);
-#endif
 
 #define SZ_SPFA			"SPFA Algoritm"
-#define SZ_BFS          "Breadth-First Search"
 
 int main(int argc, char **argv)
 {
@@ -35,13 +30,12 @@ int main(int argc, char **argv)
 #ifdef SINGLE_PAIR
 	long *sink_array=NULL;
 #endif
-	char *szAlgorithm, gName[100], aName[100], oName[100];
+	char gName[100], aName[100], oName[100];
 	FILE *oFile;
 	long long dist;
 	double dDist;
 	long long maxArcLen, minArcLen;
 	SP *sp;
-	long param;
 
 #if (defined CHECKSUM) && (!defined SINGLE_PAIR)
 	Node *node;
@@ -64,13 +58,8 @@ int main(int argc, char **argv)
 
 	parse_gr(&n, &m, &nodes, &arcs, &nmin, gName ); 
 
-#ifdef SINGLE_PAIR
-	printf("p res p2p q spfa\n");
-	parse_p2p(&nQ, &source_array, &sink_array, aName);
-#else
 	printf("p res ss spfa\n");
 	parse_ss(&nQ, &source_array, aName);
-#endif
 
 	fprintf(oFile, "f %s %s\n", gName, aName);
 
@@ -86,7 +75,6 @@ int main(int argc, char **argv)
 	}
 
 	// figure out what algorithm to use
-	szAlgorithm = SZ_SPFA;
 
 	sp = new SP(n, nodes);
 
@@ -101,20 +89,6 @@ int main(int argc, char **argv)
 
 	tm = timer();          // start timing
 	for (int i = 0; i < nQ; i++) {
-#ifdef SINGLE_PAIR
-		source = nodes + source_array[i] - 1;
-		sink = nodes + sink_array[i] - 1;
-		sp->initS(source);
-		sp->sp(source, sink);
-#ifdef CHECKSUM
-		if (sink->tStamp != source->tStamp)
-			fprintf(stderr,"c No path found\n");
-		else {
-			dist = sink->dist;
-			fprintf(oFile,"d %lld\n", dist);
-		}
-#endif	 
-#else
 		source = nodes + source_array[i] - 1;
 		sp->initS(source);
 		sp->sp(source);
@@ -125,8 +99,6 @@ int main(int argc, char **argv)
 				dist = (dist + (node->dist % MODUL)) % MODUL;
 			}
 		fprintf(oFile,"d %lld\n", dist);
-#endif
-
 #endif
 	}
 	tm = (timer() - tm);   // finish timing
@@ -151,6 +123,5 @@ int main(int argc, char **argv)
 	free(sink_array);
 #endif   
 	fclose(oFile);
-
 	return 0;
 }
