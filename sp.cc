@@ -48,6 +48,7 @@ SP::SP(long cNodesGiven, Node *nodesGiven)
   nodes = nodesGiven;
   cCalls = cScans = cUpdates = 0;     // no stats yet
   dijkstra = NULL;
+curTime = 0;
   //** initialize data type for new sp algorithm here **//
 
   ArcLen(cNodes, nodes, &minArcLen, &maxArcLen);
@@ -83,7 +84,6 @@ void SP::init()
 {
    Node *currentNode;
 
-   curTime = 0;
    for (currentNode=nodes; currentNode < nodes + cNodes; currentNode++) {
      initNode(currentNode);
    }

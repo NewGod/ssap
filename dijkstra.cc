@@ -14,6 +14,9 @@ Dijkstra::~Dijkstra(){
 
 void Dijkstra::dijkstra(Node *source, SP *sp){
 	init();
+	sp->curTime++;
+	sp->init();
+	sp->initS(source);
 	q->push(source, 0);
 	int cnt = 0;
 	while (!q->empty()) {
