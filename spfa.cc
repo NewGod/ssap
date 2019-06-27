@@ -14,6 +14,9 @@ SPFA::~SPFA(){
 
 void SPFA::spfa(Node *source, SP *sp){
 	init();
+	sp->curTime++;
+	sp->init();
+	sp->initS(source);
 	q->push(source);
 	while (!q->empty()) {
 		Node* u = (Node*) q->pop();

@@ -95,7 +95,7 @@ int main(int argc, char **argv)
 #ifdef CHECKSUM
 		dist = source->dist;
 		for ( node = nodes; node < nodes + n; node++ )
-			if (node->tStamp == sp->curTime) {
+			if (node->dist == VERY_FAR) {
 				dist = (dist + (node->dist % MODUL)) % MODUL;
 			}
 		fprintf(oFile,"d %lld\n", dist);

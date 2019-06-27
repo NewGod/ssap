@@ -29,7 +29,6 @@ public:
 	void* pop(){
 		assert(end != curr); 
 		(++curr) %= maxSize;
-		void* tmp = data[curr]; 
 		return data[curr];
 	}
 };
