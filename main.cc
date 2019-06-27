@@ -15,7 +15,7 @@ extern int parse_gr( long *n_ad, long *m_ad, Node **nodes_ad, Arc **arcs_ad,
 		long *node_min_ad, char *problem_name );
 extern int parse_ss(long *sN_ad, long **source_array, char *aName);
 
-#define SZ_SPFA			"SPFA Algoritm"
+#define SZ_DIJK		"Dijkstra Algoritm"
 
 int main(int argc, char **argv)
 {
@@ -58,7 +58,7 @@ int main(int argc, char **argv)
 
 	parse_gr(&n, &m, &nodes, &arcs, &nmin, gName ); 
 
-	printf("p res ss spfa\n");
+	printf("p res ss dijkstra\n");
 	parse_ss(&nQ, &source_array, aName);
 
 	fprintf(oFile, "f %s %s\n", gName, aName);

@@ -47,16 +47,16 @@ SP::SP(long cNodesGiven, Node *nodesGiven)
   cNodes = cNodesGiven;
   nodes = nodesGiven;
   cCalls = cScans = cUpdates = 0;     // no stats yet
-  spfa = NULL;
+  dijkstra = NULL;
   //** initialize data type for new sp algorithm here **//
 
   ArcLen(cNodes, nodes, &minArcLen, &maxArcLen);
-  spfa = new SPFA(cNodes, nodes);
+  dijkstra = new Dijkstra(cNodes, nodes);
 }
 
 SP::~SP()
 {
-	if (spfa) delete spfa;
+	if (dijkstra) delete dijkstra;
 //** delete data structure for new sp algorithm here **//
 }
 
@@ -70,8 +70,7 @@ void SP::initNode(Node *currentNode)
    currentNode->dist = VERY_FAR;   // not yet a shortest path
    currentNode->tStamp = curTime;
    currentNode->parent = NULL;
-   currentNode->inQueue = false;
-   
+   currentNode->done = false;
 }
 
 //-------------------------------------------------------------
@@ -118,7 +117,7 @@ void SP::sp(Node *source)
 {
    cCalls++;
 
-   spfa->spfa(source, this);
+   dijkstra->dijkstra(source, this);
 }
 //-------------------------------------------------------------
 // SP::PrintStats()

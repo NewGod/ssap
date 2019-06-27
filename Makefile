@@ -6,18 +6,18 @@ CCFLAGS = -ansi -Wall -O3 -DNDEBUG -I../../lib
 LDFLAGS = 
 LOADLIBES = -lm        # the name used by the automatic linker rule
 
-SRCS = main.cc sp.cc spfa.cc parser_gr.cc timer.cc
-HDRS = sp.h nodearc.h spfa.h queue.h values.h
-CODES = spfa.exe spfaC.exe
+SRCS = main.cc sp.cc dijkstra.cc parser_gr.cc timer.cc
+HDRS = sp.h nodearc.h dijkstra.h queue.h values.h
+CODES = dijkstra.exe dijkstraC.exe
 
 all: $(CODES)
 
-spfa.exe: $(SRCS) $(HDRS) parser_ss.cc
-	$(CC) $(CCFLAGS) -o spfa.exe $(SRCS) parser_ss.cc $(LOADLIBES)
+dijkstra.exe: $(SRCS) $(HDRS) parser_ss.cc
+	$(CC) $(CCFLAGS) -o dijkstra.exe $(SRCS) parser_ss.cc $(LOADLIBES)
 
-spfaC.exe: $(SRCS) $(HDRS) parser_ss.cc
-	$(CC) $(CCFLAGS) -DCHECKSUM -o spfaC.exe $(SRCS) parser_ss.cc $(LOADLIBES)
+dijkstraC.exe: $(SRCS) $(HDRS) parser_ss.cc
+	$(CC) $(CCFLAGS) -DCHECKSUM -o dijkstraC.exe $(SRCS) parser_ss.cc $(LOADLIBES)
 
 
 clean:
-	rm -f *~ spfa.exe spfaC.exe
+	rm -f *~ dijkstra.exe dijkstraC.exe

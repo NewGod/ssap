@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include "values.h"
 #include "nodearc.h"
-#include "spfa.h"
+#include "dijkstra.h"
 #ifndef ulong 
 typedef unsigned long ulong;
 #endif
@@ -21,16 +21,16 @@ typedef unsigned long ulong;
 int sp_openarc(Arc *arc);              // whether SP thinks an arc is usable
 extern void ArcLen(long cNodes, Node *nodes,
 		   long long *pMin = NULL, long long *pMax = NULL);
-class SPFA;
+class Dijkstra;
 class SP{
  private:
-   long cNodes;
    Node *nodes;
 
-   SPFA *spfa;						// for SPFA
+   Dijkstra *dijkstra;	
 //** add new SP data structure here **//
 
  public:
+   long cNodes;
    SP(long cNodesGiven, Node *nodesGiven);
    ~SP();
    void init();

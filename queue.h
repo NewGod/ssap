@@ -3,7 +3,12 @@
 #include<stdlib.h>
 #include<assert.h>
 #include<stdio.h>
+#include<queue>
+#include<vector>
 
+#ifndef ulong 
+typedef unsigned long ulong;
+#endif
 class Queue{
 private:
 	void **data;
@@ -29,8 +34,29 @@ public:
 	void* pop(){
 		assert(end != curr); 
 		(++curr) %= maxSize;
-		void* tmp = data[curr]; 
 		return data[curr];
 	}
 };
+
+class PriorityQueue{
+	private:
+	typedef std::pair<ulong, void*> item;
+	std::priority_queue<item, std::vector<item>, std::greater<item> > q; 
+	public: 
+	void push(void *elt, ulong dist){
+		return q.push(std::make_pair(dist, elt));
+	}
+	void* pop(){
+		item ret = q.top();
+		q.pop();
+		return ret.second;
+	}
+	bool empty(){ 
+		return q.empty();
+	}
+	void clear(){ 
+		while (!q.empty()) q.pop();
+	}
+};
+
 #endif 
