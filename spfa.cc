@@ -20,6 +20,7 @@ void SPFA::spfa(Node *source, SP *sp){
 	q->push(source);
 	while (!q->empty()) {
 		Node* u = (Node*) q->pop();
+		// fprintf(stderr, "%d %d\n", sp->nodeId(u), u->dist);
 		u->inQueue = false;
 		Arc* end = (u+1) -> first;
 		for (Arc* arc = u->first; arc < end; arc++){ 
@@ -34,5 +35,6 @@ void SPFA::spfa(Node *source, SP *sp){
 			}
 		}
 	}
+	fprintf(stderr, "End\n");
 }
 

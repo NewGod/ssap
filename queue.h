@@ -16,7 +16,8 @@ public:
 		assert(data);
 	}
 	void *push(void *elt){
-		data[((++end)%=maxSize)]=elt;
+		end = (end + 1) % maxSize;
+		data[end]=elt;
 		assert(end != curr);
 		return data[end];
 	}
@@ -28,7 +29,7 @@ public:
 	}
 	void* pop(){
 		assert(end != curr); 
-		(++curr) %= maxSize;
+		curr = (curr + 1) % maxSize;
 		return data[curr];
 	}
 };
