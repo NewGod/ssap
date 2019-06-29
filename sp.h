@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include "values.h"
 #include "nodearc.h"
-#include "spfa.h"
+#include "deltastepping.h"
 #ifndef ulong 
 typedef unsigned long ulong;
 #endif
@@ -21,20 +21,21 @@ typedef unsigned long ulong;
 int sp_openarc(Arc *arc);              // whether SP thinks an arc is usable
 extern void ArcLen(long cNodes, Node *nodes,
 		   long long *pMin = NULL, long long *pMax = NULL);
-class SPFA;
+class DeltaStepping;
 class SP{
  private:
    long cNodes;
    Node *nodes;
 
-   SPFA *spfa;						// for SPFA
+   DeltaStepping *deltaStepping;						// for SPFA
 //** add new SP data structure here **//
 
  public:
+   long long mn, mx;
    SP(long cNodesGiven, Node *nodesGiven);
    ~SP();
+   void initAlgorithm(int delta = 10);
    void init();
-   void initS(Node *source);
    void initNode(Node *source);
    void sp(Node *source);
    // these must be public, alas, so Heap and Bucket can modify them

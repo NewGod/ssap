@@ -18,7 +18,6 @@ struct Node {
   Arc *first;          // first outgoing arc
   int tStamp;
   Node *parent;
-  bool inQueue;
 };
 
 

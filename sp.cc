@@ -47,16 +47,21 @@ SP::SP(long cNodesGiven, Node *nodesGiven)
   cNodes = cNodesGiven;
   nodes = nodesGiven;
   cCalls = cScans = cUpdates = 0;     // no stats yet
-  spfa = NULL;
+  deltaStepping = NULL;
   //** initialize data type for new sp algorithm here **//
 
   ArcLen(cNodes, nodes, &minArcLen, &maxArcLen);
-  spfa = new SPFA(cNodes, nodes);
+  mn = minArcLen;
+  mx = maxArcLen;
+}
+
+void SP::initAlgorithm(int delta){
+  deltaStepping = new DeltaStepping(this, cNodes, nodes, delta);
 }
 
 SP::~SP()
 {
-	if (spfa) delete spfa;
+	if (deltaStepping) delete deltaStepping;
 //** delete data structure for new sp algorithm here **//
 }
 
@@ -70,8 +75,6 @@ void SP::initNode(Node *currentNode)
    currentNode->dist = VERY_FAR;   // not yet a shortest path
    currentNode->tStamp = curTime;
    currentNode->parent = NULL;
-   currentNode->inQueue = false;
-   
 }
 
 //-------------------------------------------------------------
@@ -88,13 +91,6 @@ void SP::init()
    for (currentNode=nodes; currentNode < nodes + cNodes; currentNode++) {
      initNode(currentNode);
    }
-}
-
-void SP::initS(Node *source)
-{
-  initNode(source);
-  source->parent = source;
-  source->dist = 0;               // all distances are to the source
 }
 
 
@@ -117,8 +113,7 @@ void SP::initS(Node *source)
 void SP::sp(Node *source)
 {
    cCalls++;
-
-   spfa->spfa(source, this);
+   deltaStepping->deltaStepping(source);
 }
 //-------------------------------------------------------------
 // SP::PrintStats()

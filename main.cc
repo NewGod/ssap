@@ -3,6 +3,7 @@
  *
  */
 
+#include <omp.h>
 #include <stdlib.h>       // for atoi
 #include <stdio.h>        // for printf
 #include "sp.h"           // shortest-path class
@@ -15,10 +16,10 @@ extern int parse_gr( long *n_ad, long *m_ad, Node **nodes_ad, Arc **arcs_ad,
 		long *node_min_ad, char *problem_name );
 extern int parse_ss(long *sN_ad, long **source_array, char *aName);
 
-#define SZ_SPFA			"SPFA Algoritm"
 
 int main(int argc, char **argv)
 {
+	omp_set_num_threads(4);
 	double tm = 0.0;
 	Arc *arcs;
 	Node *nodes, *source = NULL;
@@ -58,7 +59,7 @@ int main(int argc, char **argv)
 
 	parse_gr(&n, &m, &nodes, &arcs, &nmin, gName ); 
 
-	printf("p res ss spfa\n");
+	printf("p res ss deltaStepping\n");
 	parse_ss(&nQ, &source_array, aName);
 
 	fprintf(oFile, "f %s %s\n", gName, aName);
@@ -78,20 +79,37 @@ int main(int argc, char **argv)
 
 	sp = new SP(n, nodes);
 
-	sp->init();
+	sp->initAlgorithm(8192);
 
 	fprintf(stderr,"c Nodes: %24ld       Arcs: %22ld\n",  n, m);
 	fprintf(stderr,"c MinArcLen: %20lld       MaxArcLen: %17lld\n", 
 			minArcLen, maxArcLen);
 	fprintf(stderr,"c Trials: %23ld\n", nQ);
 
-	dist = 0;
-
 	tm = timer();          // start timing
+	/*
+	for (unsigned long delta = 4096; delta < 16384; delta += 2048) {
+		sp->initAlgorithm(delta);
+		float sum = 0;
+		fprintf(stderr, "delta: %u\n", delta);
+		for (int i = 0; i < 10; i++) {
+			source = nodes + source_array[i] - 1;
+			float ti = omp_get_wtime();
+			sp->sp(source);
+			ti = omp_get_wtime() - ti;
+			fprintf(stderr,"time: %lf\n", ti);
+			sum += ti;
+		}
+		fprintf(stderr, "delta: %u       total time %lf\n", delta, sum);
+	}
+	return 0;
+	*/
 	for (int i = 0; i < nQ; i++) {
 		source = nodes + source_array[i] - 1;
-		sp->initS(source);
+		float ti = omp_get_wtime();
 		sp->sp(source);
+		ti = omp_get_wtime() - ti;
+		fprintf(stderr,"time: %lf\n", ti);
 #ifdef CHECKSUM
 		dist = source->dist;
 		for ( node = nodes; node < nodes + n; node++ )
